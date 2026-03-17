@@ -1,0 +1,13 @@
+<form action="/" method="post">
+  First Name: <input name="first_name" value="{{ data.first_name | default('') }}"><br>
+  Last Name: <input name="last_name" value="{{ data.last_name | default('') }}"><br>
+  Score: <input name="score" value="{{ data.score | default('') }}"><br>
+  X Count: <input name="xcount" value="{{ data.xcount | default('') }}"><br>
+  Class:
+  <select name="class">
+    {% for cls in classes %}
+      <option value="{{ cls }}" {% if data.class == cls %}selected{% endif %}>{{ cls }}</option>
+    {% endfor %}
+  </select><br>
+  <button type="submit">Submit</button>
+</form>
