@@ -3,6 +3,8 @@ from flask import Flask, request, render_template, redirect, url_for, session
 from database import init_db, get_student, save_student
 
 app = Flask(__name__)
+app.secret_key = 'replace_this_with_a_strong_random_key'
+app.config['SESSION_PERMANENT'] = True
 app.secret_key = 'replace_this_with_a_strong_random_key'  # use a real secret key in production
 
 init_db()  # initialize database
@@ -12,6 +14,7 @@ CLASSES = ["open", "match", "factory", "auto"]  # allowed classes
 # Landing page
 @app.route('/', methods=['GET', 'POST'])
 def landing():
+	print("Form route hit")  # remove when working
     if request.method == 'POST':
         password = request.form.get('password', '')
         if password == "secret123":  # set your chosen password
