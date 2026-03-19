@@ -56,7 +56,7 @@ def form():
                 'xcount': existing[3],
                 'class': existing[4]
             }
-        return render_template('result.html', data=data)
+	return redirect(url_for('form', first_name=first_name, last_name=last_name))
 
     # GET with optional pre-fill
     first_name = request.args.get('first_name', '')

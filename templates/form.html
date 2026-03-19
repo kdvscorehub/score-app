@@ -11,3 +11,10 @@
   </select><br>
   <button type="submit">Submit</button>
 </form>
+<br><br>
+<a href="{{ url_for('logout') }}">
+  <button type="button">Exit Add/Modify</button>
+</a>
+<button type="button" onclick="window.location.href='{{ url_for('form') }}'">
+  New Entry
+</button>
