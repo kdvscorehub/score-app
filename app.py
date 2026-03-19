@@ -1,28 +1,29 @@
-import os
 from flask import Flask, request, render_template, redirect, url_for, session
+import os
 from database import init_db, get_student, save_student
 
 app = Flask(__name__)
 app.secret_key = 'replace_this_with_a_strong_random_key'
 app.config['SESSION_PERMANENT'] = True
-app.secret_key = 'replace_this_with_a_strong_random_key'  # use a real secret key in production
 
-init_db()  # initialize database
+init_db()
 
-CLASSES = ["open", "match", "factory", "auto"]  # allowed classes
+CLASSES = ["open", "match", "factory", "auto"]
 
 # Landing page
 @app.route('/', methods=['GET', 'POST'])
 def landing():
-	print("Form route hit")  # remove when working
+    print("Landing route hit")
+
     if request.method == 'POST':
         password = request.form.get('password', '')
-        if password == "secret123":  # set your chosen password
+        if password == "secret123":
             session['authenticated'] = True
-            return redirect(url_for('form'))  # redirect to form page
+            return redirect(url_for('form'))
         else:
             error = "Incorrect password!"
             return render_template('landing.html', error=error)
+
     return render_template('landing.html', error=None)
 
 # Form page (authenticated)
@@ -76,11 +77,11 @@ def form():
 # View all results (no password required)
 @app.route('/results')
 def view_results():
-    import sqlite3
-    conn = sqlite3.connect('score_app.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT first_name, last_name, score, xcount, class FROM students ORDER BY id DESC')
-    students = cursor.fetchall()
+    from database import get_conn
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute('SELECT first_name, last_name, score, xcount, class FROM students ORDER BY id DESC')
+    students = cur.fetchall()
     conn.close()
     return render_template('results_list.html', students=students)
 
